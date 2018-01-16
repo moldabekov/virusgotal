@@ -1,6 +1,6 @@
 # Virusgotal
 
-`virusgotal` is a simple CLI wrapper for famous VirusTotal services. No hassle URLs and files scanning ever.
+`virusgotal` is a simple CLI wrapper for famous VirusTotal service. No hassle URLs and files scanning ever.
 
 Yes, it is yet another wrapper.
 
