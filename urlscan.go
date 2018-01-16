@@ -9,7 +9,8 @@ import (
 
 func printUrlResult(result *govt.UrlReport) {
 	color.Set(color.FgHiYellow)
-	fmt.Printf("%s scan results:\n\n", *urlname)
+	fmt.Printf("%s scan results:\n", *urlname)
+	fmt.Printf("VirusTotal link: %s\n\n", result.Permalink)
 	color.Set(color.FgHiCyan)
 	fmt.Printf("Detection ratio: %v/%v\n\n", result.Positives, result.Total)
 	for i := range result.Scans {
@@ -21,6 +22,7 @@ func printUrlResult(result *govt.UrlReport) {
 			fmt.Printf("AV: %s\nDetected: %t\n\n", i, result.Scans[i].Detected)
 		}
 	}
+	color.Unset()
 	os.Exit(0)
 }
 
@@ -30,14 +32,21 @@ func scanUrl(urlname string) {
 	vt, err := govt.New(govt.SetApikey(apikey), govt.SetUrl(apiurl))
 	check(err)
 
-	// Check database
+	// Check previous results
 	if !*forceUrl {
 		r, err := vt.GetUrlReport(urlname)
 		check(err)
 
 		// If file was previously scanned print results
-		if r.Status.ResponseCode != 0 {
+		switch r.Status.ResponseCode {
+		case 1: // Results exist
+			fmt.Printf("%d", r.Status.ResponseCode)
 			printUrlResult(r)
+		case -2: // Scan in progress
+			color.Set(color.FgHiRed)
+			fmt.Printf("You scan is still in progress\n")
+			color.Unset()
+			os.Exit(1)
 		}
 	}
 
@@ -46,10 +55,10 @@ func scanUrl(urlname string) {
 		report, err := vt.ScanUrl(urlname)
 		check(err)
 		color.Set(color.FgHiGreen, color.Bold)
-		fmt.Printf("Your URL was submitted and scan was queued. Here are details:\n")
+		fmt.Printf("Your URL was submitted and scan was queued. Here are details:\n\n")
 		color.Set(color.Reset, color.FgHiCyan)
 		fmt.Printf("Link: %s\n", report.Url)
-		fmt.Printf("Direct link to scan: %s\n", report.Permalink)
+		fmt.Printf("VirusTotal link: %s\n", report.Permalink)
 		color.Unset()
 	} else { // Wait for results if user wishes
 		for m := 0; m <= 10; m++ {

@@ -26,7 +26,8 @@ func sha256sum(filename string) string {
 func printFileResult(result *govt.FileReport) {
 	color.Set(color.FgHiYellow)
 	fmt.Printf("%s file scan results:\n", *filename)
-	fmt.Printf("sha256 hashsum: %s\n\n", result.Sha256)
+	fmt.Printf("sha256 hashsum: %s\n", result.Sha256)
+	fmt.Printf("VirusTotal link: %s\n\n", result.Permalink)
 	color.Set(color.FgHiCyan)
 	fmt.Printf("Detection ratio: %v/%v\n\n", result.Positives, result.Total)
 	for i := range result.Scans {
@@ -38,6 +39,7 @@ func printFileResult(result *govt.FileReport) {
 			fmt.Printf("AV: %s\nDetected: %t\n\n", i, result.Scans[i].Detected)
 		}
 	}
+	color.Unset()
 	os.Exit(0)
 }
 
@@ -47,14 +49,21 @@ func scanFile(filename string) {
 	vt, err := govt.New(govt.SetApikey(apikey), govt.SetUrl(apiurl))
 	check(err)
 
-	// Check database
+	// Check previous results
 	if !*forceFile {
 		r, err := vt.GetFileReport(sha256sum(filename))
 		check(err)
 
 		// If file was previously scanned print results
-		if r.Status.ResponseCode != 0 {
+		switch r.Status.ResponseCode {
+		case 1: // Results exist
+			fmt.Printf("%d", r.Status.ResponseCode)
 			printFileResult(r)
+		case -2: // Scan in progress
+			color.Set(color.FgHiRed)
+			fmt.Printf("You scan is still in progress\n")
+			color.Unset()
+			os.Exit(1)
 		}
 	}
 
@@ -63,10 +72,10 @@ func scanFile(filename string) {
 		report, err := vt.ScanFile(filename)
 		check(err)
 		color.Set(color.FgHiGreen, color.Bold)
-		fmt.Printf("Your file was submitted and scan was queued. Here are details:\n")
+		fmt.Printf("Your file was submitted and scan was queued. Here are details:\n\n")
 		color.Set(color.Reset, color.FgHiCyan)
 		fmt.Printf("sha256 hash: %s\n", report.Sha256)
-		fmt.Printf("Direct link: %s\n", report.Permalink)
+		fmt.Printf("VirusTotal link: %s\n", report.Permalink)
 		color.Unset()
 	} else { // Wait for results if user wishes
 		for m := 0; m <= 10; m++ {
