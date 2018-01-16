@@ -1,13 +1,14 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"github.com/moldabekov/termux-virustotal/vt"
-	"gopkg.in/alecthomas/kingpin.v2"
 	"io"
 	"os"
 	"crypto/sha256"
+
+	"github.com/moldabekov/termux-virustotal/vt"
+	"gopkg.in/alecthomas/kingpin.v2"
+	"github.com/fatih/color"
 )
 
 const apiurl = "https://www.virustotal.com/vtapi/v2/"
@@ -15,12 +16,15 @@ const apiurl = "https://www.virustotal.com/vtapi/v2/"
 var (
 	app = kingpin.New("virusgotal", "A CLI VirusTotal client built with Go")
 
-	filescan = app.Command("filescan", "File scan mode")
-	filename = filescan.Arg("FILE", "File to scan").Required().String()
-	force    = filescan.Flag("force check", "").Bool()
+	filescan  = app.Command("file", "File scan mode")
+	filename  = filescan.Arg("FILE", "File to scan").Required().String()
+	forceFile = filescan.Flag("force", "rescan file").Bool()
+	waitFile = filescan.Flag("wait","wait for results").Bool()
 
-	urlscan = app.Command("urlscan", "URL scan mode")
-	urlname = urlscan.Arg("URL", "URL to scan").Required().String()
+	urlscan  = app.Command("url", "URL scan mode")
+	urlname  = urlscan.Arg("URL", "URL to scan").Required().String()
+	forceUrl = urlscan.Flag("force", "rescan URL").Bool()
+	waitUrl = urlscan.Flag("wait","wait for results").Bool()
 )
 
 func check(err error) {
@@ -44,6 +48,41 @@ func sha256sum(filename string) string {
 	return fmt.Sprintf("%x\n", h.Sum(nil))
 }
 
+func printFileResult(result *govt.FileReport) {
+	color.Set(color.FgHiYellow)
+	fmt.Printf("%s file was already scanned.\n", *filename)
+	fmt.Printf("sha256 hashsum: %s\n\n", result.Sha256)
+	color.Set(color.FgHiCyan)
+	fmt.Printf("Detection ratio: %v/%v\n\n", result.Positives, result.Total)
+	for i := range result.Scans {
+		if result.Scans[i].Detected {
+			color.Set(color.FgHiRed, color.Bold)
+			fmt.Printf("AV: %s\nResult: %s\n\n", i, result.Scans[i].Result)
+		} else {
+			color.Set(color.FgHiGreen, color.Bold)
+			fmt.Printf("AV: %s\nDetected: %t\n\n", i, result.Scans[i].Detected)
+		}
+	}
+	os.Exit(0)
+}
+
+func printUrlResult(result *govt.UrlReport) {
+	color.Set(color.FgHiYellow)
+	fmt.Printf("%s was already scanned.\n", *urlname)
+	color.Set(color.FgHiCyan)
+	fmt.Printf("Detection ratio: %v/%v\n\n", result.Positives, result.Total)
+	for i := range result.Scans {
+		if result.Scans[i].Detected {
+			color.Set(color.FgHiRed, color.Bold)
+			fmt.Printf("AV: %s\nResult: %s\n\n", i, result.Scans[i].Result)
+		} else {
+			color.Set(color.FgHiGreen, color.Bold)
+			fmt.Printf("AV: %s\nDetected: %t\n\n", i, result.Scans[i].Detected)
+		}
+	}
+	os.Exit(0)
+}
+
 func scanFile(filename string) {
 	// Init VT
 	apikey := os.Getenv("VT_API_KEY")
@@ -51,27 +90,45 @@ func scanFile(filename string) {
 	check(err)
 
 	// Check database
-	r, err := vt.GetFileReport(sha256sum(filename))
-	check(err)
-
-	if r.Status.ResponseCode != 0 {
-		result, err := json.MarshalIndent(r, "", "		")
+	if !*forceFile {
+		r, err := vt.GetFileReport(sha256sum(filename))
 		check(err)
 
-		fmt.Printf("File was already scanned: %s\n", result)
-		os.Exit(0)
+		// If file was previously checked give results
+		if r.Status.ResponseCode != 0 {
+			printFileResult(r)
+		}
 	}
 
 	// Scan file
 	report, err := vt.ScanFile(filename)
 	check(err)
 
-	// Unmarshal JSON
-	result, err := json.MarshalIndent(report, "", "    ")
+	fmt.Printf("%s\n", report.Status)
+}
+
+func scanUrl(urlname string) {
+	// Init VT
+	apikey := os.Getenv("VT_API_KEY")
+	vt, err := govt.New(govt.SetApikey(apikey), govt.SetUrl(apiurl))
 	check(err)
-	// Print result
-	fmt.Printf("File scan result: ")
-	os.Stdout.Write(result)
+
+	// Check database
+	if !*forceUrl {
+		r, err := vt.GetUrlReport(urlname)
+		check(err)
+
+		// If file was previously checked give results
+		if r.Status.ResponseCode != 0 {
+			printUrlResult(r)
+		}
+	}
+
+	// Scan URL
+	report, err := vt.ScanUrl(urlname)
+	check(err)
+
+	fmt.Printf("%s\n", report.Status)
 }
 
 func main() {
@@ -79,6 +136,6 @@ func main() {
 	case filescan.FullCommand():
 		scanFile(*filename)
 	case urlscan.FullCommand():
-		fmt.Printf("URL scan mode: %s\n", *urlname)
+		scanUrl(*urlname)
 	}
 }
