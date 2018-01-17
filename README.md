@@ -1,27 +1,48 @@
 # Virusgotal
 
-`virusgotal` is a simple CLI wrapper for famous VirusTotal service. No hassle URLs and files scanning ever.
+`virusgotal` is a simple CLI wrapper for famous VirusTotal service. No hassle URLs and files scan ever.
 
-Yes, it is yet another wrapper.
-
-However it's a crossplatform CLI tool which runs on Linux/macOS/Windows and even Android.
+Yes, it is yet another wrapper. However it's a crossplatform CLI tool which runs on Linux/macOS/Windows/\*BSD and even on Android.
 
 
 ## Installation
 
-The easiest way is to grab package from Github Releases page.
+1. The easiest way is to grab package from Github Releases page and place it (*preferably*) in your $PATH.
+For more convinient usage rename `virusgotal-OS-ARCH` to `virusgotal`.
 
-If you want to do it manually then you are welcome:
-
-```go get -u github.com/moldabekov/virusgotal```
+2. If you want to do it manually then you are welcome:
+```
+go get -u github.com/moldabekov/virusgotal
+go install -u github.com/moldabekov/virusgotal
+```
+*NOTE: make sure you have included $GOPATH/bin to $PATH*
 
 ## Usage
 
-**TBD**
+At the moment `virusgotal` supports files/URLs scan and search results by file hash (SHA1/SHA256/MD5).
+
+* To scan a file simple type:
+`virusgotal file <FILE>`
+  * To rescan a file:
+  `virusgotal file <FILE> --force`
+  * Wait for scan results:
+  `virusgotal file <FILE> --wait`
+
+* To scan a URL:
+`virusgotal url <URL>`
+  * To rescan a URL:
+  `virusgotal url <URL> --force`
+  * Wait for scan results:
+  `virusgotal url <URL> --wait`
+  
+* To lookup a hash sum in VirusTotal database:
+`virusgotal hash <HASH>`
+
+
 
 ## Contribution
 
-**TBD**
+All kinds of contribution are welcome! Please send your PRs, bug reports, ideas, suggestions.
 
 ## License
 MIT License
