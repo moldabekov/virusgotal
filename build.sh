@@ -2,7 +2,7 @@
 
 PACKAGE=virusgotal
 DIR=./release
-SRC=src/*
+SRC=.
 LDFLAGS="-s -w"
 
 if [ ! -d "$DIR" ]; then
