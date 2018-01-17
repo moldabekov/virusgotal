@@ -78,11 +78,11 @@ func scanFile(filename string) {
 		fmt.Printf("VirusTotal link: %s\n", report.Permalink)
 		color.Unset()
 	} else { // Wait for results if user wishes
-		for m := 0; m <= 10; m++ {
-			loader(fmt.Sprintf("waiting for results for %d minutes", m))
+		for m := 0; m <= 600; m += 30 { // m == minutes
+			loader(fmt.Sprintf("waiting for results for %d seconds", m))
 			r, err := vt.GetFileReport(sha256sum(filename))
 			check(err)
-			if r.Status.ResponseCode != 0 {
+			if r.Status.ResponseCode == 1 {
 				printFileResult(r)
 			}
 		}
