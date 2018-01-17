@@ -10,7 +10,9 @@ import (
 func printUrlResult(result *govt.UrlReport) {
 	color.Set(color.FgHiYellow)
 	fmt.Printf("%s scan results:\n", *urlname)
-	fmt.Printf("VirusTotal link: %s\n\n", result.Permalink)
+	if !*waitUrl {
+		fmt.Printf("VirusTotal link: %s\n\n", result.Permalink)
+	}
 	color.Set(color.FgHiCyan)
 	fmt.Printf("Detection ratio: %v/%v\n\n", result.Positives, result.Total)
 	for i := range result.Scans {
@@ -51,21 +53,22 @@ func scanUrl(urlname string) {
 	}
 
 	// Scan URL
-	if !*waitUrl {
-		report, err := vt.ScanUrl(urlname)
-		check(err)
-		color.Set(color.FgHiGreen, color.Bold)
-		fmt.Printf("Your URL was submitted and scan was queued. Here are details:\n\n")
-		color.Set(color.Reset, color.FgHiCyan)
-		fmt.Printf("Link: %s\n", report.Url)
-		fmt.Printf("VirusTotal link: %s\n", report.Permalink)
-		color.Unset()
-	} else { // Wait for results if user wishes
+	//if !*waitUrl {
+	report, err := vt.ScanUrl(urlname)
+	check(err)
+	color.Set(color.FgHiGreen, color.Bold)
+	fmt.Printf("Your URL was submitted and scan was queued. Here are details:\n\n")
+	color.Set(color.Reset, color.FgHiCyan)
+	fmt.Printf("Link: %s\n", report.Url)
+	fmt.Printf("VirusTotal link: %s\n\n", report.Permalink)
+	color.Unset()
+	if *waitUrl { // Wait for results if user wishes
 		for m := 0; m <= 600; m += 30 {
 			loader(fmt.Sprintf("waiting for results for %d seconds", m))
 			r, err := vt.GetUrlReport(urlname)
 			check(err)
 			if r.Status.ResponseCode == 1 {
+				fmt.Printf("scan took ~ %d seconds\n", m)
 				printUrlResult(r)
 			}
 		}

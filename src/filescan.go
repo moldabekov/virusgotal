@@ -26,8 +26,10 @@ func sha256sum(filename string) string {
 func printFileResult(result *govt.FileReport) {
 	color.Set(color.FgHiYellow)
 	fmt.Printf("%s file scan results:\n", *filename)
-	fmt.Printf("sha256 hashsum: %s\n", result.Sha256)
-	fmt.Printf("VirusTotal link: %s\n\n", result.Permalink)
+	if !*waitFile {
+		fmt.Printf("sha256 hashsum: %s\n", result.Sha256)
+		fmt.Printf("VirusTotal link: %s\n\n", result.Permalink)
+	}
 	color.Set(color.FgHiCyan)
 	fmt.Printf("Detection ratio: %v/%v\n\n", result.Positives, result.Total)
 	for i := range result.Scans {
@@ -68,21 +70,21 @@ func scanFile(filename string) {
 	}
 
 	// Scan file
-	if !*waitFile {
-		report, err := vt.ScanFile(filename)
-		check(err)
-		color.Set(color.FgHiGreen, color.Bold)
-		fmt.Printf("Your file was submitted and scan was queued. Here are details:\n\n")
-		color.Set(color.Reset, color.FgHiCyan)
-		fmt.Printf("sha256 hash: %s\n", report.Sha256)
-		fmt.Printf("VirusTotal link: %s\n", report.Permalink)
-		color.Unset()
-	} else { // Wait for results if user wishes
+	report, err := vt.ScanFile(filename)
+	check(err)
+	color.Set(color.FgHiGreen, color.Bold)
+	fmt.Printf("Your file was submitted and scan was queued. Here are details:\n\n")
+	color.Set(color.Reset, color.FgHiCyan)
+	fmt.Printf("sha256 hash: %s\n", report.Sha256)
+	fmt.Printf("VirusTotal link: %s\n\n", report.Permalink)
+	color.Unset()
+	if *waitFile { // Wait for results if user wishes
 		for m := 0; m <= 600; m += 30 { // m == minutes
 			loader(fmt.Sprintf("waiting for results for %d seconds", m))
 			r, err := vt.GetFileReport(sha256sum(filename))
 			check(err)
 			if r.Status.ResponseCode == 1 {
+				fmt.Printf("scan took ~ %d seconds\n", m)
 				printFileResult(r)
 			}
 		}
