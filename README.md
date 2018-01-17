@@ -18,7 +18,7 @@ go install -u github.com/moldabekov/virusgotal
 *NOTE: make sure you have included $GOPATH/bin to $PATH*
 
 You will need VirusTotal API key. You can obtain it from your profile at VT.
-After obtaining it set key to env variable:
+After obtaining it export the key to env variable:
 
 `export VT_API_KEY=<your key>`
 
