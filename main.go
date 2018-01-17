@@ -1,10 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"os"
-	"time"
-	"github.com/moldabekov/spinner"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -23,21 +20,6 @@ var (
 	forceUrl = urlscan.Flag("force", "rescan URL").Bool()
 	waitUrl  = urlscan.Flag("wait", "wait for results").Bool()
 )
-
-func check(err error) {
-	if err != nil {
-		fmt.Printf("FATAL: %v\n", err)
-		os.Exit(1)
-	}
-}
-
-func loader(s string) {
-	spin := spinner.New("%s " + s)
-	spin.Start()
-	defer spin.Stop()
-	time.Sleep(30 * time.Second) // query every 30 seconds
-}
-
 
 func main() {
 	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
