@@ -2,6 +2,8 @@
 
 PACKAGE=virusgotal
 DIR=./release
+SRC=src/*
+LDFLAGS="-s -w"
 
 if [ ! -d "$DIR" ]; then
 	mkdir $DIR
@@ -22,36 +24,36 @@ function compress_win {
 }
 
 # Linux
-export GOOS=linux GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-export GOOS=linux GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-export GOOS=linux GOARCH=arm && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-export GOOS=linux GOARCH=arm64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-export GOOS=linux GOARCH=mips && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-export GOOS=linux GOARCH=mips64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
+export GOOS=linux GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+export GOOS=linux GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+export GOOS=linux GOARCH=arm && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+export GOOS=linux GOARCH=arm64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+export GOOS=linux GOARCH=mips && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+export GOOS=linux GOARCH=mips64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
 
 # macOS
-export GOOS=darwin GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-export GOOS=darwin GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
+export GOOS=darwin GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+export GOOS=darwin GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
 
 # Windows
-export GOOS=windows GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH.exe . && compress_win
-export GOOS=windows GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH.exe . && compress_win
+export GOOS=windows GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH.exe $SRC && compress_win
+export GOOS=windows GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH.exe $SRC && compress_win
 
 # Android [!] Needs cross compiler!
-# export GOOS=android GOARCH=arm && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
+# export GOOS=android GOARCH=arm && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
 
 # FreeBSD
-export GOOS=freebsd GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-export GOOS=freebsd GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
+export GOOS=freebsd GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+export GOOS=freebsd GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
 
 # NetBSD
-export GOOS=netbsd GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-export GOOS=netbsd GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
+export GOOS=netbsd GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+export GOOS=netbsd GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
 
 # OpenBSD
-export GOOS=openbsd GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-export GOOS=openbsd GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
+export GOOS=openbsd GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+export GOOS=openbsd GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
 
 # Plan9
-# export GOOS=plan9 GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
-# export GOOS=plan9 GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH . && compress
+# export GOOS=plan9 GOARCH=amd64 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
+# export GOOS=plan9 GOARCH=386 && go build -ldflags="-s -w" -o $DIR/$PACKAGE-$GOOS-$GOARCH $SRC && compress
