@@ -7,7 +7,7 @@ So here, we demonstrate that the scheme works, and leave it at that
 Written by Willi Ballenthin while at Mandiant.
 June, 2013.
 */
-package vt
+package govt
 
 import (
 	"flag"

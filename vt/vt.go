@@ -12,7 +12,7 @@ October, 2014.
 
 File updated and patched by M. Moldabek, 2017.
 */
-package vt
+package govt
 
 import (
 	"archive/tar"

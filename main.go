@@ -1,7 +1,36 @@
-package termux_virustotal
+package main
 
-import "fmt"
+import (
+	"os"
+	"gopkg.in/alecthomas/kingpin.v2"
+)
+
+const apiurl = "https://www.virustotal.com/vtapi/v2/"
+
+var (
+	app = kingpin.New("virusgotal", "A CLI VirusTotal client built with Go")
+
+	filescan  = app.Command("file", "File scanning mode")
+	filename  = filescan.Arg("FILE", "File to scan").Required().String()
+	forceFile = filescan.Flag("force", "rescan file").Bool()
+	waitFile  = filescan.Flag("wait", "wait for results").Bool()
+
+	urlscan  = app.Command("url", "URL scanning mode")
+	urlname  = urlscan.Arg("URL", "URL to scan").Required().String()
+	forceUrl = urlscan.Flag("force", "rescan URL").Bool()
+	waitUrl  = urlscan.Flag("wait", "wait for results").Bool()
+
+	hashscan = app.Command("hash", "Search files by hash")
+	hash     = hashscan.Arg("HASH", "SHA1/SHA256/MD5 hash").Required().String()
+)
 
 func main() {
-	fmt.Println("123")
+	switch kingpin.MustParse(app.Parse(os.Args[1:])) {
+	case filescan.FullCommand():
+		scanFile(*filename)
+	case urlscan.FullCommand():
+		scanUrl(*urlname)
+	case hashscan.FullCommand():
+		searchHash(*hash)
+	}
 }
