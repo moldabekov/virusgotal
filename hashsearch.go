@@ -25,7 +25,8 @@ func searchHash(hash string) {
 	} else {
 		if r.Positives > 0 {
 			color.Set(color.FgHiRed)
-			fmt.Printf("\nGiven hash [%d/%d] is KNOWN by VirusTotal and has positive results\n", r.Positives, r.Total)
+			fmt.Printf("\nGiven hash is KNOWN by VirusTotal and has positive results [%d/%d]\n", r.Positives, r.Total)
+			printFileResult(r)
 			color.Unset()
 		} else {
 			color.Set(color.FgHiGreen)

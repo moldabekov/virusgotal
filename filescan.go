@@ -25,7 +25,9 @@ func sha256sum(filename string) string {
 
 func printFileResult(result *govt.FileReport) {
 	color.Set(color.FgHiYellow)
-	fmt.Printf("%s file scan results:\n", *filename)
+	if len(*filename) > 0 {
+		fmt.Printf("%s file scan results:\n", *filename)
+	}
 	if !*waitFile {
 		fmt.Printf("sha256 hashsum: %s\n", result.Sha256)
 		fmt.Printf("VirusTotal link: %s\n\n", result.Permalink)
@@ -59,7 +61,6 @@ func scanFile(filename string) {
 		// If file was previously scanned print results
 		switch r.Status.ResponseCode {
 		case 1: // Results exist
-			fmt.Printf("%d", r.Status.ResponseCode)
 			printFileResult(r)
 		case -2: // Scan in progress
 			color.Set(color.FgHiRed)

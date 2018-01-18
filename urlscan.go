@@ -42,7 +42,6 @@ func scanUrl(urlname string) {
 		// If file was previously scanned print results
 		switch r.Status.ResponseCode {
 		case 1: // Results exist
-			fmt.Printf("%d", r.Status.ResponseCode)
 			printUrlResult(r)
 		case -2: // Scan in progress
 			color.Set(color.FgHiRed)
