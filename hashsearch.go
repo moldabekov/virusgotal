@@ -22,17 +22,20 @@ func searchHash(hash string) {
 		fmt.Printf("Given hash isn't recognized by VirusTotal\n")
 		color.Unset()
 		os.Exit(1)
-	} else {
-		if r.Positives > 0 {
-			color.Set(color.FgHiRed)
+	}
+	if r.Positives > 0 {
+		color.Set(color.FgHiRed)
+		if !*jsonHash {
 			fmt.Printf("\nGiven hash is KNOWN by VirusTotal and has positive results [%d/%d]\n", r.Positives, r.Total)
-			printFileResult(r)
-			color.Unset()
-		} else {
-			color.Set(color.FgHiGreen)
-			fmt.Printf("\nGiven hash is KNOWN by VirusTotal and has no positive results\n", r.Positives, r.Total)
-			color.Unset()
 		}
+		printFileResult(r)
+		color.Unset()
+	} else {
+		color.Set(color.FgHiGreen)
+		fmt.Printf("\nGiven hash is KNOWN by VirusTotal and has no positive results\n", r.Positives, r.Total)
+		color.Unset()
+	}
+	if !*jsonHash {
 		fmt.Printf("Direct link: %s\n\n", r.Permalink)
 	}
 }
