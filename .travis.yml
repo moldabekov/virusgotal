@@ -4,12 +4,12 @@ go:
   - 1.9.2
   - master 
 
-install: true
+before_install:
+    - go get -t ./...
 
-matrix:
-  allow_failures:
-    - go: master
-  fast_finish: true
+gobuild_args: -ldflags "-s -w"
+
+install: true
 
 notifications:
   email: false
@@ -21,7 +21,6 @@ notifications:
 
 #script:
 #  - test -z $(gofmt -s -l $GO_FILES)         # Fail if a .go file hasn't been formatted with gofmt
-#  - go test -v -race ./...                   # Run all the tests with the race detector enabled
 #  - go vet ./...                             # go vet is the official Go static analyzer
 #  - megacheck ./...                          # "go vet on steroids" + linter
 #  - gocyclo -over 19 $GO_FILES               # forbid code with huge functions
