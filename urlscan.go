@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/moldabekov/virusgotal/vt"
-	"github.com/fatih/color"
-	"fmt"
-	"os"
 	"encoding/json"
+	"fmt"
+	"github.com/fatih/color"
+	"github.com/moldabekov/virusgotal/vt"
+	"os"
 )
 
 func printUrlResult(result *govt.UrlReport) {

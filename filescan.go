@@ -1,13 +1,13 @@
 package main
 
 import (
-	"os"
 	"crypto/sha256"
-	"io"
-	"fmt"
-	"github.com/moldabekov/virusgotal/vt"
-	"github.com/fatih/color"
 	"encoding/json"
+	"fmt"
+	"github.com/fatih/color"
+	"github.com/moldabekov/virusgotal/vt"
+	"io"
+	"os"
 )
 
 func sha256sum(filename string) string {

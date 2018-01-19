@@ -1,8 +1,8 @@
 package main
 
 import (
-	"time"
 	"github.com/moldabekov/spinner"
+	"time"
 )
 
 func loader(s string) {

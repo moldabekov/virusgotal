@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"github.com/moldabekov/virusgotal/vt"
 	"github.com/fatih/color"
+	"github.com/moldabekov/virusgotal/vt"
+	"os"
 )
 
 func searchHash(hash string) {
