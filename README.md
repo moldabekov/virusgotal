@@ -1,4 +1,5 @@
-![32cf7804192488d3edf4f55b488373596bd7ac35](https://user-images.githubusercontent.com/669547/35134359-108c002c-fd00-11e7-9539-32e021a22735.png)
+<p align="center">
+	<a href="#"><img src="https://user-images.githubusercontent.com/669547/35134359-108c002c-fd00-11e7-9539-32e021a22735.png" alt="VirusGotal" width="300"></a>
 
 # Virusgotal
 
