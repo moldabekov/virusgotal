@@ -1,3 +1,6 @@
+<p align="center">
+	<a href="#"><img src="https://user-images.githubusercontent.com/669547/35134359-108c002c-fd00-11e7-9539-32e021a22735.png" alt="VirusGotal" width="300"></a>
+
 # Virusgotal
 
 `virusgotal` is a simple CLI wrapper for famous VirusTotal service. No hassle URLs and files scan ever.
@@ -32,6 +35,8 @@ At the moment `virusgotal` supports files/URLs scan and search results by file h
   `virusgotal file <FILE> --force`
   * Wait for scan results:
   `virusgotal file <FILE> --wait`
+  * Get JSON formatted result:
+  `virusgotal file <FILE> --json`
 
 * To scan a URL:
 `virusgotal url <URL>`
@@ -39,10 +44,13 @@ At the moment `virusgotal` supports files/URLs scan and search results by file h
   `virusgotal url <URL> --force`
   * Wait for scan results:
   `virusgotal url <URL> --wait`
+  * Get JSON formatted result:
+  `virusgotal url <FILE> --json`
   
 * To lookup a hash sum in VirusTotal database:
 `virusgotal hash <HASH>`
-
+  * Get JSON formatted result:
+  `virustotal hash <HASH> --json`
 
 
 ## Contribution
