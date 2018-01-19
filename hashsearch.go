@@ -32,7 +32,7 @@ func searchHash(hash string) {
 		color.Unset()
 	} else {
 		color.Set(color.FgHiGreen)
-		fmt.Printf("\nGiven hash is KNOWN by VirusTotal and has no positive results\n", r.Positives, r.Total)
+		fmt.Printf("\nGiven hash is KNOWN by VirusTotal and has no positive results\n")
 		color.Unset()
 	}
 	if !*jsonHash {
