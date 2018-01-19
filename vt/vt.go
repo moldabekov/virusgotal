@@ -34,7 +34,7 @@ import (
 )
 
 const (
-	// Fallback VT API URL
+	// Fallback VT API URL 
 	DefaultURL = "https://www.virustotal.com/vtapi/v2/"
 )
 
