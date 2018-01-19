@@ -34,6 +34,7 @@ import (
 )
 
 const (
+	// Fallback VT API URL 
 	DefaultURL = "https://www.virustotal.com/vtapi/v2/"
 )
 
@@ -684,7 +685,7 @@ func (client *Client) fetchApiFile(actionurl string, parameters Parameters) (dat
 	return data, nil
 }
 
-// SearchFile(query, offset) - searches VT Inteligence for files that meet the given search criteria
+// SearchFile(query, offset) - searches VT Intelligence for files that meet the given search criteria
 // It returns a list of hashes of files that matched the search criteria.
 // See the following URL for possible search operators:
 // https://www.virustotal.com/intelligence/help/file-search/#search-operators
