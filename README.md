@@ -18,13 +18,15 @@
 
 Yes, it is yet another wrapper. However it's a crossplatform CLI tool which runs on Linux/macOS/Windows/\*BSD and even on Android.
 
+It's also requires **zero** runtime dependency.
+
 
 ## Installation
 
-1. The easiest way is to grab package from Github Releases page and place it (*preferably*) in your $PATH.
-For more convinient usage rename `virusgotal-OS-ARCH` to `virusgotal`.
+**Option 1.** The easiest way is to grab package from Github Releases page and place it (*preferably*) in your $PATH.
+For more convenient usage rename `virusgotal-OS-ARCH` to `virusgotal`.
 
-2. If you want to do it manually then you are welcome:
+**Option 2.** If you want to do it manually then you are welcome:
 ```
 go get -u github.com/moldabekov/virusgotal
 go install -u github.com/moldabekov/virusgotal
@@ -63,6 +65,7 @@ At the moment `virusgotal` supports files/URLs scan and search results by file h
   * Get JSON formatted result:
   `virustotal hash <HASH> --json`
 
+You also can combine options: `virusgotal file --wait --json --force <FILE>`
 
 ## Contribution
 
