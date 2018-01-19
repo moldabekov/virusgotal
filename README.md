@@ -1,9 +1,18 @@
 <p align="center">
 	<a href="#"><img src="https://user-images.githubusercontent.com/669547/35134359-108c002c-fd00-11e7-9539-32e021a22735.png" alt="VirusGotal" width="300"></a>
+</p>
+<h3 align="center">Scan every file & URL from your terminal!</h3>
+<p align="center">virusgotal is a simple CLI wrapper for famous VirusTotal service. No hassle URLs and files scan ever.</p>
+<p align="center">
+	<a href="https://travis-ci.org/moldabekov/virusgotal"><img src="https://img.shields.io/travis/moldabekov/virusgotal.svg?branch=master"></a>
+	<a href="https://goreportcard.com/report/github.com/moldabekov/virusgotal"><img src="https://goreportcard.com/badge/github.com/moldabekov/virusgotal"></a>	
+</p>
+<p align="center">
+	<a href="https://github.com/moldabekov/virusgotal/releases">Download</a> <!--·-->
+	<!--a href="https://t.me/">Contact</a-->
+</p>
 
 # Virusgotal
-
-`virusgotal` is a simple CLI wrapper for famous VirusTotal service. No hassle URLs and files scan ever.
 
 Yes, it is yet another wrapper. However it's a crossplatform CLI tool which runs on Linux/macOS/Windows/\*BSD and even on Android.
 
