@@ -8,8 +8,8 @@
 	<a href="https://goreportcard.com/report/github.com/moldabekov/virusgotal"><img src="https://goreportcard.com/badge/github.com/moldabekov/virusgotal"></a>	
 </p>
 <p align="center">
-	<a href="https://github.com/moldabekov/virusgotal/releases">Download</a> <!--·-->
-	<!--a href="https://t.me/">Contact</a-->
+	<a href="https://github.com/moldabekov/virusgotal/releases">Download</a>
+	<!--· <a href="https://t.me/">Contact</a-->
 </p>
 
 # Virusgotal
