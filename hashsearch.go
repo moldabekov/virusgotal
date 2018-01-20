@@ -25,7 +25,7 @@ func searchHash(hash string) {
 	}
 	if r.ResponseCode == -2 { // File scan with given hash is still in progress
 		color.Set(color.FgHiYellow)
-		fmt.Printf("\nScan with given hash is still in progress\n", r.Positives, r.Total)
+		fmt.Printf("\nScan with given hash is still in progress\n")
 		color.Unset()
 		os.Exit(1)
 	}
