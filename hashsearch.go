@@ -37,9 +37,13 @@ func searchHash(hash string) {
 		}
 		printFileResult(r)
 	} else { // Malware undetected
-		color.Set(color.FgHiGreen, color.Bold)
-		fmt.Printf("\nGiven hash is KNOWN by VirusTotal and has no positive results\n")
-		color.Unset()
+		if !*jsonHash {
+			color.Set(color.FgHiGreen, color.Bold)
+			fmt.Printf("\nGiven hash is KNOWN by VirusTotal and has no positive results\n")
+			color.Unset()
+		} else {
+			printFileResult(r)
+		}
 	}
 	if !*jsonHash {
 		fmt.Printf("Direct link: %s\n\n", r.Permalink)
