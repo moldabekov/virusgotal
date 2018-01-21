@@ -18,7 +18,7 @@
 
 Yes, it is yet another wrapper. However it's a crossplatform CLI tool which runs on Linux/macOS/Windows/\*BSD and even on Android.
 
-It's also requires **zero** runtime dependency.
+It also requires **zero** runtime dependency.
 
 
 ## Installation
