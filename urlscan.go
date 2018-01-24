@@ -36,6 +36,23 @@ func printUrlResult(result *govt.UrlReport) {
 	}
 }
 
+func waitUrlResult(vt *govt.Client, urlname string) {
+	for m := 0; m <= 600; m += 30 {
+		loader(fmt.Sprintf("waiting for results for %d seconds", m))
+		r, err := vt.GetUrlReport(urlname)
+		check(err)
+		if r.Status.ResponseCode == 1 {
+			if !*jsonUrl {
+				fmt.Printf("scan took ~ %d seconds\n", m)
+			}
+			printUrlResult(r)
+		}
+	}
+	color.Set(color.FgHiRed)
+	fmt.Printf("\nSomething went wrong with VirusTotal. Maybe their servers are overloaded.\n" +
+		"Please try again later\n")
+}
+
 func scanUrl(urlname string) {
 	// Init VT
 	apikey := os.Getenv("VT_API_KEY")
@@ -52,15 +69,18 @@ func scanUrl(urlname string) {
 		case 1: // Results exist
 			printUrlResult(r)
 		case -2: // Scan in progress
-			color.Set(color.FgHiRed)
-			fmt.Printf("You scan is still in progress\n")
-			color.Unset()
-			os.Exit(1)
+			if !*waitUrl {
+				color.Set(color.FgHiRed)
+				fmt.Printf("You scan is still in progress\n")
+				color.Unset()
+				os.Exit(1)
+			} else {
+				waitUrlResult(vt, urlname)
+			}
 		}
 	}
 
 	// Scan URL
-	//if !*waitUrl {
 	report, err := vt.ScanUrl(urlname)
 	check(err)
 	if !*jsonUrl {
@@ -72,19 +92,6 @@ func scanUrl(urlname string) {
 		color.Unset()
 	}
 	if *waitUrl { // Wait for results if user wishes
-		for m := 0; m <= 600; m += 30 {
-			loader(fmt.Sprintf("waiting for results for %d seconds", m))
-			r, err := vt.GetUrlReport(urlname)
-			check(err)
-			if r.Status.ResponseCode == 1 {
-				if !*jsonUrl {
-					fmt.Printf("scan took ~ %d seconds\n", m)
-				}
-				printUrlResult(r)
-			}
-		}
-		color.Set(color.FgHiRed)
-		fmt.Printf("\nSomething went wrong with VirusTotal. Maybe their servers are overloaded.\n" +
-			"Please try again later\n")
+		waitUrlResult(vt, urlname)
 	}
 }
