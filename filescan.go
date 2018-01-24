@@ -55,6 +55,24 @@ func printFileResult(result *govt.FileReport) {
 	}
 }
 
+// Invoke spinner to display scan progress
+func waitFileResult(vt *govt.Client, filename string) {
+	for m := 0; m <= 600; m += 30 { // m == minutes
+		loader(fmt.Sprintf("waiting for results for %d seconds", m))
+		r, err := vt.GetFileReport(sha256sum(filename))
+		check(err)
+		if r.Status.ResponseCode == 1 {
+			if !*jsonFile && !*jsonHash {
+				fmt.Printf("scan took ~ %d seconds\n", m)
+			}
+			printFileResult(r)
+		}
+	}
+	color.Set(color.FgHiRed)
+	fmt.Printf("\nSomething went wrong with VirusTotal. Maybe their servers are overloaded.\n" +
+		"Please try again later\n")
+}
+
 func scanFile(filename string) {
 	// Init VT
 	apikey := os.Getenv("VT_API_KEY")
@@ -71,10 +89,14 @@ func scanFile(filename string) {
 		case 1: // Results exist
 			printFileResult(r)
 		case -2: // Scan in progress
-			color.Set(color.FgHiRed)
-			fmt.Printf("You scan is still in progress\n")
-			color.Unset()
-			os.Exit(1)
+			if !*waitFile {
+				color.Set(color.FgHiRed)
+				fmt.Printf("You scan is still in progress\n")
+				color.Unset()
+				os.Exit(1)
+			} else {
+				waitFileResult(vt, filename)
+			}
 		}
 	}
 
@@ -90,19 +112,6 @@ func scanFile(filename string) {
 		color.Unset()
 	}
 	if *waitFile { // Wait for results if user wishes
-		for m := 0; m <= 600; m += 30 { // m == minutes
-			loader(fmt.Sprintf("waiting for results for %d seconds", m))
-			r, err := vt.GetFileReport(sha256sum(filename))
-			check(err)
-			if r.Status.ResponseCode == 1 {
-				if !*jsonFile && !*jsonHash {
-					fmt.Printf("scan took ~ %d seconds\n", m)
-				}
-				printFileResult(r)
-			}
-		}
-		color.Set(color.FgHiRed)
-		fmt.Printf("\nSomething went wrong with VirusTotal. Maybe their servers are overloaded.\n" +
-			"Please try again later\n")
+		waitFileResult(vt, filename)
 	}
 }
