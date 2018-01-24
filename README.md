@@ -18,7 +18,7 @@
 
 Yes, it is yet another wrapper. However it's a crossplatform CLI tool which runs on Linux/macOS/Windows/\*BSD and even on Android.
 
-It also requires **zero** runtime dependency.
+It's also requires **zero** runtime dependency.
 
 
 ## Installation
@@ -59,7 +59,7 @@ At the moment `virusgotal` supports files/URLs scan and search results by file h
   `virusgotal url <URL> --wait`
   * Get JSON formatted result:
   `virusgotal url <FILE> --json`
-  
+
 * To lookup a hash sum in VirusTotal database:
 `virusgotal hash <HASH>`
   * Get JSON formatted result:
