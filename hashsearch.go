@@ -17,12 +17,8 @@ func searchHash(hash string) {
 	r, err := vt.GetFileReport(hash)
 	check(err)
 
-<<<<<<< HEAD
 	switch r.ResponseCode {
 	case 0: // Hash not found
-=======
-	if r.ResponseCode == 0 { // Hash not found
->>>>>>> master
 		color.Set(color.FgHiRed, color.Bold)
 		fmt.Printf("\nGiven hash is not recognized by VirusTotal\n")
 		color.Unset()
@@ -33,16 +29,7 @@ func searchHash(hash string) {
 		color.Unset()
 		os.Exit(1)
 	}
-<<<<<<< HEAD
 
-=======
-	if r.ResponseCode == -2 { // File scan with given hash is still in progress
-		color.Set(color.FgHiYellow)
-		fmt.Printf("\nScan with given hash is still in progress\n")
-		color.Unset()
-		os.Exit(1)
-	}
->>>>>>> master
 	if r.Positives > 0 { // Malware detected
 		if !*jsonHash {
 			color.Set(color.FgHiRed, color.Bold)
