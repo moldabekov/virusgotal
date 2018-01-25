@@ -6,6 +6,7 @@
 <p align="center">
 	<a href="https://travis-ci.org/moldabekov/virusgotal"><img src="https://img.shields.io/travis/moldabekov/virusgotal.svg?branch=master"></a>
 	<a href="https://goreportcard.com/report/github.com/moldabekov/virusgotal"><img src="https://goreportcard.com/badge/github.com/moldabekov/virusgotal?service=github"></a>
+	<a href="https://github.com/moldabekov/virusgotal/releases/latest"><img src="https://img.shields.io/github/release/moldabekov/virusgotal.svg"></a>
 	<a href="https://github.com/moldabekov/virusgotal/releases/"><img src="https://img.shields.io/github/downloads/moldabekov/virusgotal/total.svg"></a>
 	<a href="https://github.com/moldabekov/virusgotal/blob/master/LICENSE"><img src=https://img.shields.io/github/license/moldabekov/virusgotal.svg></a>
 </p>
