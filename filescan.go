@@ -91,7 +91,7 @@ func scanFile(filename string) {
 		case -2: // Scan in progress
 			if !*waitFile {
 				color.Set(color.FgHiRed)
-				fmt.Printf("You scan is still in progress\n")
+				fmt.Printf("Your scan is still in progress\n")
 				color.Unset()
 				os.Exit(1)
 			} else {
