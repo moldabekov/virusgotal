@@ -71,7 +71,7 @@ func scanUrl(urlname string) {
 		case -2: // Scan in progress
 			if !*waitUrl {
 				color.Set(color.FgHiRed)
-				fmt.Printf("You scan is still in progress\n")
+				fmt.Printf("Your scan is still in progress\n")
 				color.Unset()
 				os.Exit(1)
 			} else {
