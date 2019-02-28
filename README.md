@@ -24,7 +24,7 @@ It's also requires **zero** runtime dependency.
 
 ## Installation
 
-**Option 1.** The easiest way is to grab package from Github Releases page and place it (*preferably*) in your $PATH.
+**Option 1.** The easiest way is to [grab package](https://github.com/moldabekov/virusgotal/releases) from [Github Releases](https://github.com/moldabekov/virusgotal/releases) page and place it (*preferably*) in your $PATH.
 For more convenient usage rename `virusgotal-$OS-$ARCH` to `virusgotal`.
 
 **Option 2.** If you want to build it manually then you are welcome:
