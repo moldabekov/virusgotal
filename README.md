@@ -11,7 +11,7 @@
 	<a href="https://github.com/moldabekov/virusgotal/blob/master/LICENSE"><img src=https://img.shields.io/github/license/moldabekov/virusgotal.svg></a>
 </p>
 <p align="center">
-	<a href="https://github.com/moldabekov/virusgotal/releases"><b>Download</b></a>
+	<h2 align=center><a href="https://github.com/moldabekov/virusgotal/releases"><b>Download</b></a></h2>
 	<!--· <a href="https://t.me/">Contact</a-->
 </p>
 
